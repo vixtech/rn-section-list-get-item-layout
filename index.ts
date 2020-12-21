@@ -52,7 +52,7 @@ export default ({
         offset += getSectionHeaderHeight(sectionIndex)
 
         // If this section is empty, we go right to the footer...
-        if (sectionData.length === 0) {
+        if (!sectionData || sectionData.length === 0) {
           elementPointer = { type: 'SECTION_FOOTER' }
           // ...otherwise we make elementPointer point at the first row in this section
         } else {
@@ -66,13 +66,15 @@ export default ({
 
         const rowIndex = elementPointer.index
 
-        offset += getItemHeight(sectionData[rowIndex], sectionIndex, rowIndex)
-        elementPointer.index += 1
+        if (sectionData) {
+          offset += getItemHeight(sectionData[rowIndex], sectionIndex, rowIndex)
+          elementPointer.index += 1
 
-        if (rowIndex === sectionData.length - 1) {
-          elementPointer = { type: 'SECTION_FOOTER' }
-        } else {
-          offset += getSeparatorHeight(sectionIndex, rowIndex)
+          if (rowIndex === sectionData.length - 1) {
+            elementPointer = { type: 'SECTION_FOOTER' }
+          } else {
+            offset += getSeparatorHeight(sectionIndex, rowIndex)
+          }
         }
 
         break
@@ -95,8 +97,10 @@ export default ({
       break
     case 'ROW':
       const rowIndex = elementPointer.index
+      const sectionData = data[sectionIndex].data
+
       length = getItemHeight(
-        data[sectionIndex].data[rowIndex],
+        sectionData ? sectionData[rowIndex] : null,
         sectionIndex,
         rowIndex,
       )
