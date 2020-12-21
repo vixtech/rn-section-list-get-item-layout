@@ -1,5 +1,5 @@
 export type SectionListDataProp = Array<{
-  data: any[]
+  data: ReadonlyArray<any> | null
 }>
 
 interface SectionHeader {
