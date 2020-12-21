@@ -1,5 +1,4 @@
 export type SectionListDataProp = Array<{
-  title: string
   data: any[]
 }>
 
